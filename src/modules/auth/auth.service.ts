@@ -26,10 +26,12 @@ export class AuthService {
     password: string,
   ): Promise<AuthenticatedUser | null> {
     const user = await this.userService.findOne({ email });
+
     const desHashedPasswordIsEqual: boolean = await bcrypt.compare(
       password,
       user.password,
     );
+
     if (user && desHashedPasswordIsEqual) {
       const userPicked = omit(user, 'password');
       return userPicked;
